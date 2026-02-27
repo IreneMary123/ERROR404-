@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ComplaintPortal | MGITS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/4adadbb6df.js" crossorigin="anonymous"></script>
+
+<style>
+:root {
+  --bg1: #f8f5f2;
+  --bg2: #efe8df;
+  --card: rgba(255,255,255,0.85);
+  --text: #4b3f34;
+  --accent: #bfae9f;
+  --button1: #cbb9a7;
+  --button2: #a58e7a;
+}
+
+body.dark {
+  --bg1: #1e1c1a;
+  --bg2: #2a2623;
+  --card: rgba(40,36,33,0.95);
+  --text: #f1e9df;
+  --accent: #d2bba7;
+  --button1: #8c7a6a;
+  --button2: #6f5f52;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg,var(--bg1),var(--bg2));
+  transition: 0.4s;
+  overflow: hidden;
+}
+
+/* Floating blobs */
+.blob {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, var(--accent), transparent);
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.5;
+  animation: float 12s infinite alternate ease-in-out;
+  pointer-events: none;
+}
+
+.blob:nth-child(1) { top: -120px; left: -120px; }
+.blob:nth-child(2) { bottom: -120px; right: -120px; animation-delay: 4s; }
+
+@keyframes float {
+  from { transform: translateY(0px); }
+  to { transform: translateY(40px); }
+}
+
+/* Card */
+.container {
+  width: 420px;
+  padding: 50px 40px;
+  border-radius: 25px;
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+  z-index: 1;
+}
+
+/* Animated border (FIXED) */
+.container::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 25px;
+  padding: 2px;
+  background: linear-gradient(120deg, var(--accent), #e5d4c5, var(--accent));
+  background-size: 200% 200%;
+  animation: borderGlow 8s linear infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none; /* 🔥 prevents blocking clicks */
+}
+
+@keyframes borderGlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.brand {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text);
+  opacity: 0.7;
+  margin-bottom: 30px;
+}
+
+form {
+  display: none;
+  animation: fade 0.4s ease forwards;
+}
+
+form.active {
+  display: block;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Inputs */
+.input-group {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 40px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255,255,255,0.7);
+  font-size: 14px;
+  outline: none;
+}
+
+.input-group label {
+  position: absolute;
+  left: 40px;
+  top: 14px;
+  font-size: 14px;
+  color: #888;
+  transition: 0.3s;
+  pointer-events: none;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -8px;
+  left: 35px;
+  font-size: 11px;
+  color: var(--accent);
+}
+
+.input-group i {
+  position: absolute;
+  left: 12px;
+  top: 14px;
+  color: var(--accent);
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg,var(--button1),var(--button2));
+  color: white;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.toggle {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+/* Dark mode toggle */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text);
+}
+</style>
+</head>
+
+<body>
+
+<div class="blob"></div>
+<div class="blob"></div>
+
+<div class="container" id="card">
+  <div class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon"></i>
+  </div>
+
+  <div class="brand">ComplaintPortal</div>
+  <div class="subtitle">MGITS Official Complaint Management System</div>
+
+  <!-- Register -->
+  <form id="registerForm" class="active">
+    <div class="input-group">
+      <i class="fas fa-envelope"></i>
+      <input type="email" placeholder=" " required>
+      <label>Email (@mgits.ac.in)</label>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" placeholder=" " required>
+      <label>Password</label>
+    </div>
+    <button type="submit">Create Account</button>
+  </form>
+
+  <!-- Login -->
+  <form id="loginForm">
+    <div class="input-group">
+      <i class="fas fa-envelope"></i>
+      <input type="email" placeholder=" " required>
+      <label>Email (@mgits.ac.in)</label>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" placeholder=" " required>
+      <label>Password</label>
+    </div>
+    <button type="submit">Login</button>
+  </form>
+
+  <div class="toggle" id="toggleText">
+    Already have an account? <b>Login</b>
+  </div>
+</div>
+
+<script>
+const registerForm = document.getElementById("registerForm");
+const loginForm = document.getElementById("loginForm");
+const toggleText = document.getElementById("toggleText");
+const card = document.getElementById("card");
+const themeToggle = document.getElementById("themeToggle");
+
+/* Toggle forms */
+toggleText.addEventListener("click", () => {
+  registerForm.classList.toggle("active");
+  loginForm.classList.toggle("active");
+  toggleText.innerHTML = loginForm.classList.contains("active")
+    ? `Don't have an account? <b>Register</b>`
+    : `Already have an account? <b>Login</b>`;
+});
+
+/* Smooth hover lift */
+card.addEventListener("mouseenter", () => {
+  card.style.transform = "translateY(-8px)";
+  card.style.boxShadow = "0 40px 90px rgba(0,0,0,0.2)";
+});
+
+card.addEventListener("mouseleave", () => {
+  card.style.transform = "translateY(0px)";
+  card.style.boxShadow = "0 30px 80px rgba(0,0,0,0.15)";
+});
+
+/* Dark mode */
+themeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+});
+</script>
+
+<script type="module" src="./js/auth.js"></script>
+
+</body>
+</html>
