@@ -3,86 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Voice</title>
+<title>Student Voice Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 body{
-  font-family:'Inter',sans-serif;
-  background:#f3f4f6;
   margin:0;
-  color:#111827;
+  font-family:'Inter',sans-serif;
+  background:#f5f7fb;
 }
 
-/* Navbar */
+/* navbar */
 .navbar{
+  background:white;
+  padding:18px 40px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:18px 40px;
-  background:white;
-  border-bottom:1px solid #e5e7eb;
+  box-shadow:0 4px 20px rgba(0,0,0,0.05);
 }
 
-.logo{
-  font-size:20px;
+.brand{
   font-weight:700;
+  font-size:20px;
+  color:#1e2b4f;
 }
 
-.nav-links a{
-  margin-left:20px;
-  text-decoration:none;
-  color:#374151;
+.nav-right button{
+  padding:8px 14px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
   font-weight:500;
 }
 
-/* Main */
+.submit-btn{
+  background:#1e2b4f;
+  color:white;
+}
+
+.logout-btn{
+  background:#ef4444;
+  color:white;
+}
+
+/* container */
 .container{
-  max-width:1000px;
-  margin:40px auto;
+  max-width:1100px;
+  margin:30px auto;
   padding:0 20px;
 }
 
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+/* grid */
+.complaints-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:20px;
 }
 
-.header h1{
-  font-size:32px;
-  margin-bottom:6px;
-}
-
-.subtitle{
-  color:#6b7280;
-}
-
-/* Submit button */
-.submit-btn{
-  background:#1f2937;
-  color:white;
-  padding:12px 20px;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-}
-
-.submit-btn:hover{
-  background:#111827;
-}
-
-/* Cards */
+/* card */
 .card{
   background:white;
-  padding:20px;
   border-radius:16px;
-  margin-top:20px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
-  transition:0.3s;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.06);
+  transition:.25s;
 }
 
 .card:hover{
@@ -90,36 +76,22 @@ body{
 }
 
 .card h3{
-  margin:10px 0;
+  margin:0 0 8px;
+  font-size:18px;
 }
 
-.card p{
-  color:#6b7280;
-  font-size:14px;
+.meta{
+  font-size:13px;
+  color:#64748b;
+  margin-bottom:10px;
 }
 
-.card button{
-  margin-top:10px;
-  background:#e5e7eb;
-  border:none;
-  padding:8px 14px;
-  border-radius:20px;
-  cursor:pointer;
-  font-weight:600;
-}
-
-.card button:hover{
-  background:#d1d5db;
-}
-
-/* Logout */
-.logout-btn{
-  margin-top:30px;
-  background:#ef4444;
+.vote-btn{
+  background:#10b981;
   color:white;
   border:none;
-  padding:10px 18px;
-  border-radius:10px;
+  padding:6px 12px;
+  border-radius:6px;
   cursor:pointer;
 }
 </style>
@@ -128,47 +100,25 @@ body{
 <body>
 
 <div class="navbar">
-  <div class="logo">🎓 Student Voice</div>
-  <div class="nav-links">
-    <a href="#">Feed</a>
-    <a href="admin.html">Admin</a>
+  <div class="brand">Student Voice</div>
+  <div class="nav-right">
+    <button class="submit-btn" onclick="location.href='submit.html'">
+      + Submit
+    </button>
+    <button class="logout-btn" onclick="logoutUser()">Logout</button>
   </div>
 </div>
 
 <div class="container">
-
-  <div class="header">
-    <div>
-      <h1>Campus Feedback</h1>
-      <div class="subtitle">Anonymous complaints & suggestions — your voice matters.</div>
-    </div>
-    <button class="submit-btn" id="goSubmitBtn">+ Submit Complaint</button>
-  </div>
-
-  <div id="complaintList"></div>
-
-  <button class="logout-btn" id="logoutBtn">Logout</button>
-
+  <div id="complaintList" class="complaints-grid"></div>
 </div>
 
 <script type="module">
-import { auth } from './js/firebase.js';
-import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { loadComplaints, upvote } from './js/complaints.js';
+import "./js/complaints.js";
+import { logoutUser } from "./js/auth.js";
 
-document.getElementById("logoutBtn").addEventListener("click", async()=>{
-  await signOut(auth);
-  window.location.href="index.html";
-});
-
-document.getElementById("goSubmitBtn").addEventListener("click", ()=>{
-  window.location.href="submit.html";
-});
-
-window.upvote = upvote;
-window.loadComplaints = loadComplaints;
-
-loadComplaints();
+window.logoutUser = logoutUser;
+window.loadComplaints();
 </script>
 
 </body>
