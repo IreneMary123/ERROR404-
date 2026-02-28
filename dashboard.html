@@ -1,151 +1,196 @@
-<style>
-body{
-  font-family:'Inter',sans-serif;
-  background:#f3f4f6;
-  margin:0;
-  color:#111827;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-/* Navbar */
-.navbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:18px 40px;
-  background:white;
-  border-bottom:1px solid #e5e7eb;
-}
+  <style>
+    body{
+      font-family:'Inter',sans-serif;
+      background:#f3f4f6;
+      margin:0;
+      color:#111827;
+    }
 
-.logo{
-  font-size:20px;
-  font-weight:700;
-}
+    /* Navbar */
+    .navbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px 40px;
+      background:white;
+      border-bottom:1px solid #e5e7eb;
+    }
 
-.nav-links a{
-  margin-left:20px;
-  text-decoration:none;
-  color:#374151;
-  font-weight:500;
-}
+    .logo{
+      font-size:20px;
+      font-weight:700;
+    }
 
-/* Main container */
-.container{
-  max-width:1000px;
-  margin:40px auto;
-  padding:0 20px;
-}
+    .nav-links a{
+      margin-left:20px;
+      text-decoration:none;
+      color:#374151;
+      font-weight:500;
+    }
 
-/* Header */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:15px;
-}
+    /* Main container */
+    .container{
+      max-width:1000px;
+      margin:40px auto;
+      padding:0 20px;
+    }
 
-.header h1{
-  font-size:32px;
-  margin-bottom:6px;
-}
+    /* Header */
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:15px;
+    }
 
-.subtitle{
-  color:#6b7280;
-}
+    .header h1{
+      font-size:32px;
+      margin-bottom:6px;
+    }
 
-/* Submit button */
-.submit-btn{
-  background:#1f2937;
-  color:white;
-  padding:12px 20px;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-  transition:0.2s;
-}
+    .subtitle{
+      color:#6b7280;
+    }
 
-.submit-btn:hover{
-  background:#111827;
-  transform:translateY(-1px);
-}
+    /* Submit button */
+    .submit-btn{
+      background:#1f2937;
+      color:white;
+      padding:12px 20px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      transition:0.2s;
+    }
 
-/* Cards */
-.card{
-  background:white;
-  padding:20px;
-  border-radius:16px;
-  margin-top:20px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
-  transition:0.25s ease;
-}
+    .submit-btn:hover{
+      background:#111827;
+      transform:translateY(-1px);
+    }
 
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 12px 30px rgba(0,0,0,0.08);
-}
+    /* Cards */
+    .card{
+      background:white;
+      padding:20px;
+      border-radius:16px;
+      margin-top:20px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.05);
+      transition:0.25s ease;
+    }
 
-.card h3{
-  margin:0 0 6px 0;
-}
+    .card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 12px 30px rgba(0,0,0,0.08);
+    }
 
-.card p{
-  color:#6b7280;
-  font-size:14px;
-  margin-top:6px;
-}
+    .card h3{
+      margin:0 0 6px 0;
+    }
 
-/* ✅ NEW META LINE */
-.meta{
-  font-size:13px;
-  color:#6b7280;
-  margin-bottom:8px;
-  font-weight:500;
-}
+    .card p{
+      color:#6b7280;
+      font-size:14px;
+      margin-top:6px;
+    }
 
-/* ✅ NEW VOTE BUTTON */
-.vote-btn{
-  margin-top:12px;
-  background:#eef2ff;
-  color:#3730a3;
-  border:none;
-  padding:8px 14px;
-  border-radius:20px;
-  cursor:pointer;
-  font-weight:600;
-  transition:0.2s;
-}
+    /* Meta line */
+    .meta{
+      font-size:13px;
+      color:#6b7280;
+      margin-bottom:8px;
+      font-weight:500;
+    }
 
-.vote-btn:hover{
-  background:#e0e7ff;
-}
+    /* Vote button */
+    .vote-btn{
+      margin-top:12px;
+      background:#eef2ff;
+      color:#3730a3;
+      border:none;
+      padding:8px 14px;
+      border-radius:20px;
+      cursor:pointer;
+      font-weight:600;
+      transition:0.2s;
+    }
 
-/* Logout */
-.logout-btn{
-  margin-top:30px;
-  background:#ef4444;
-  color:white;
-  border:none;
-  padding:10px 18px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:600;
-  transition:0.2s;
-}
+    .vote-btn:hover{
+      background:#e0e7ff;
+    }
 
-.logout-btn:hover{
-  background:#dc2626;
-}
+    /* Logout */
+    .logout-btn{
+      margin-top:30px;
+      background:#ef4444;
+      color:white;
+      border:none;
+      padding:10px 18px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      transition:0.2s;
+    }
 
-/* Responsive */
-@media (max-width:640px){
-  .header{
-    flex-direction:column;
-    align-items:flex-start;
-  }
+    .logout-btn:hover{
+      background:#dc2626;
+    }
 
-  .submit-btn{
-    width:100%;
-  }
-}
-</style>
+    /* Responsive */
+    @media (max-width:640px){
+      .header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .submit-btn{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">Civic Voice</div>
+    <div class="nav-links">
+      <a href="#">Dashboard</a>
+      <a href="#">Profile</a>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="container">
+
+    <div class="header">
+      <div>
+        <h1>Community Complaints</h1>
+        <div class="subtitle">Track and support local issues</div>
+      </div>
+
+      <button class="submit-btn" onclick="location.href='submit.html'">
+        + Submit Complaint
+      </button>
+    </div>
+
+    <!-- Complaints list -->
+    <div id="complaintList"></div>
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <!-- JS -->
+  <script type="module" src="complaints.js"></script>
+
+</body>
+</html>
