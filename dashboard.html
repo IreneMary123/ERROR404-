@@ -1,41 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Voice</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+
 <style>
-body{font-family:'Inter',sans-serif; background:linear-gradient(135deg,#f8f5f2,#efe8df); margin:0;}
-.container{max-width:1000px;margin:40px auto;padding:30px;border-radius:25px;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);box-shadow:0 20px 50px rgba(0,0,0,0.1);}
-h1{text-align:center;color:#4b3f34;margin-bottom:20px;}
-.submit-btn{position:fixed;top:30px;right:30px;background:#cbb9a7;color:white;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;font-weight:600;box-shadow:0 4px 15px rgba(0,0,0,0.2);}
-.submit-btn:hover{background:#a58e7a;}
-#searchBox, #categoryFilter{margin:10px 5px;padding:8px;border-radius:8px;border:none;outline:none;}
-.complaints-grid{display:flex;flex-wrap:wrap;gap:15px;margin-top:20px;}
-.card{flex:1 1 45%;background:rgba(255,255,255,0.85);border-radius:15px;padding:15px;box-shadow:0 6px 18px rgba(0,0,0,0.08);transition:0.3s;}
-.card:hover{transform:translateY(-5px);box-shadow:0 12px 25px rgba(0,0,0,0.15);}
-.card h3{margin-top:0;color:#111827;}
-.card p{font-size:14px;color:#4b5563;margin:4px 0;}
-.card button{background:#10b981;color:white;border:none;padding:6px 12px;border-radius:6px;margin-top:8px;cursor:pointer;}
-.card button:hover{background:#059669;}
-.logout-btn{display:block;width:120px;margin:30px auto 0;background:#ef4444;color:white;padding:10px 20px;border-radius:10px;border:none;cursor:pointer;}
-.logout-btn:hover{background:#b91c1c;}
-@media screen and (max-width:700px){.complaints-grid{flex-direction:column;}.card{flex:1 1 100%;}}
+body{
+  font-family:'Inter',sans-serif;
+  background:#f3f4f6;
+  margin:0;
+  color:#111827;
+}
+
+/* Navbar */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 40px;
+  background:white;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.logo{
+  font-size:20px;
+  font-weight:700;
+}
+
+.nav-links a{
+  margin-left:20px;
+  text-decoration:none;
+  color:#374151;
+  font-weight:500;
+}
+
+/* Main */
+.container{
+  max-width:1000px;
+  margin:40px auto;
+  padding:0 20px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.header h1{
+  font-size:32px;
+  margin-bottom:6px;
+}
+
+.subtitle{
+  color:#6b7280;
+}
+
+/* Submit button */
+.submit-btn{
+  background:#1f2937;
+  color:white;
+  padding:12px 20px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.submit-btn:hover{
+  background:#111827;
+}
+
+/* Cards */
+.card{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  margin-top:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.card h3{
+  margin:10px 0;
+}
+
+.card p{
+  color:#6b7280;
+  font-size:14px;
+}
+
+.card button{
+  margin-top:10px;
+  background:#e5e7eb;
+  border:none;
+  padding:8px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.card button:hover{
+  background:#d1d5db;
+}
+
+/* Logout */
+.logout-btn{
+  margin-top:30px;
+  background:#ef4444;
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:10px;
+  cursor:pointer;
+}
 </style>
 </head>
-<body onload="loadComplaints()">
+
+<body>
+
+<div class="navbar">
+  <div class="logo">🎓 Student Voice</div>
+  <div class="nav-links">
+    <a href="#">Feed</a>
+    <a href="admin.html">Admin</a>
+  </div>
+</div>
+
 <div class="container">
-<h1>All Complaints</h1>
-<input type="text" id="searchBox" placeholder="Search complaints">
-<select id="categoryFilter">
-  <option value="">All Categories</option>
-  <option value="Academics">Academics</option>
-  <option value="Facilities">Facilities</option>
-  <option value="Other">Other</option>
-</select>
-<div id="complaintList" class="complaints-grid"></div>
-<button class="logout-btn" id="logoutBtn">Logout</button>
-<button class="submit-btn" id="goSubmitBtn">Submit Complaint</button>
+
+  <div class="header">
+    <div>
+      <h1>Campus Feedback</h1>
+      <div class="subtitle">Anonymous complaints & suggestions — your voice matters.</div>
+    </div>
+    <button class="submit-btn" id="goSubmitBtn">+ Submit Complaint</button>
+  </div>
+
+  <div id="complaintList"></div>
+
+  <button class="logout-btn" id="logoutBtn">Logout</button>
+
 </div>
 
 <script type="module">
@@ -43,13 +156,20 @@ import { auth } from './js/firebase.js';
 import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { loadComplaints, upvote } from './js/complaints.js';
 
-document.getElementById("logoutBtn").addEventListener("click", async()=>{await signOut(auth); window.location.href="index.html";});
-document.getElementById("goSubmitBtn").addEventListener("click", ()=>{window.location.href="submit.html";});
-document.getElementById("searchBox").addEventListener("input", loadComplaints);
-document.getElementById("categoryFilter").addEventListener("change", loadComplaints);
+document.getElementById("logoutBtn").addEventListener("click", async()=>{
+  await signOut(auth);
+  window.location.href="index.html";
+});
+
+document.getElementById("goSubmitBtn").addEventListener("click", ()=>{
+  window.location.href="submit.html";
+});
 
 window.upvote = upvote;
 window.loadComplaints = loadComplaints;
+
+loadComplaints();
 </script>
+
 </body>
 </html>
