@@ -58,8 +58,6 @@ export async function loadComplaints() {
   const snapshot = await getDocs(q);
 
   const container = document.getElementById("complaintList");
-  if (!container) return;
-
   container.innerHTML = "";
 
   snapshot.forEach((docSnap) => {
@@ -68,9 +66,7 @@ export async function loadComplaints() {
     container.innerHTML += `
       <div class="card">
         <h3>${data.title || ""}</h3>
-        <div class="meta">
-          ${data.category || "General"} • ${data.status || "Pending"}
-        </div>
+        <div class="meta">${data.category || "General"} • ${data.status || "Pending"}</div>
         <p>${data.description || ""}</p>
         <button class="vote-btn" onclick="upvote('${docSnap.id}')">
           👍 ${data.votes || 0}
@@ -79,7 +75,6 @@ export async function loadComplaints() {
     `;
   });
 }
-
 /* =========================
    Upvote complaint
 ========================= */
