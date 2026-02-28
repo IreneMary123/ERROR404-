@@ -1,12 +1,8 @@
-import { initializeApp } from 
-"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-import { getAuth } from 
-"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-import { getFirestore } from 
-"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
+// Your provided configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBTPWb1C9Er4jI3PiQHmK6EApsLrYKV8pQ",
   authDomain: "synergiaproj.firebaseapp.com",

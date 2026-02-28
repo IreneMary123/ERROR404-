@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<h1>Admin Dashboard</h1>
+<div>Total: <span id="total"></span></div>
+<div>Pending: <span id="pending"></span></div>
+<div>Resolved: <span id="resolved"></span></div>
+<div id="complaintList"></div>
+
+<script type="module">
+import { db } from './js/firebase.js';
+import { collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+export async function loadAdminData(){
+  const snapshot = await getDocs(collection(db,"complaints"));
+  let total=0,pending=0,resolved=0;
+  const container=document.getElementById("complaintList"); container.innerHTML="";
+  snapshot.forEach(docSnap=>{
+    total++; const data=docSnap.data();
+    if(data.status==="Pending") pending++; if(data.status==="Resolved") resolved++;
+    container.innerHTML += `<div class="card"><h3>${data.title}</h3><p>${data.description}</p><p>Category:${data.category}</p><p>Submitted by:${data.created_by}</p><p>Status:${data.status}</p>${data.status==="Pending"?`<button onclick="resolve('${docSnap.id}')">Resolve</button>`:""}</div>`;
+  });
+  document.getElementById("total").innerText=total;
+  document.getElementById("pending").innerText=pending;
+  document.getElementById("resolved").innerText=resolved;
+}
+
+async function resolve(id){ await updateDoc(doc(db,"complaints",id),{status:"Resolved"}); loadAdminData();}
+window.resolve=resolve;
+window.loadAdminData=loadAdminData;
+loadAdminData();
+</script>
+</body>
+</html>

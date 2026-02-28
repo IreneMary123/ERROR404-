@@ -1,70 +1,30 @@
 import { auth, db } from "./firebase.js";
-
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-import { doc, setDoc } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-/* =========================
-   REGISTER
-========================= */
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const registerForm = document.getElementById("registerForm");
-
-if (registerForm) {
-  registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = registerForm.email.value.trim();
-    const password = registerForm.password.value;
-
-    // 🔒 Restrict to MGITS emails only
-    if (!email.endsWith("@mgits.ac.in")) {
-      alert("Registration allowed only for @mgits.ac.in email addresses.");
-      return;
-    }
-
-    try {
-      const userCredential =
-        await createUserWithEmailAndPassword(auth, email, password);
-
-      const user = userCredential.user;
-
-      await setDoc(doc(db, "users", user.uid), {
-        email: email,
-        role: "student"
-      });
-
-      alert("Account created successfully!");
-      registerForm.reset();
-    } catch (error) {
-      alert(error.message);
-    }
-  });
-}
-
-/* =========================
-   LOGIN
-========================= */
-
 const loginForm = document.getElementById("loginForm");
+const roleSelect = document.getElementById("roleSelect");
 
-if (loginForm) {
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+registerForm.addEventListener("submit", async(e)=>{
+  e.preventDefault();
+  const email = registerForm.querySelector("input[type=email]").value;
+  const password = registerForm.querySelector("input[type=password]").value;
+  const role = roleSelect.value;
+  if(!email.endsWith("@mgits.ac.in")) return alert("Only @mgits.ac.in allowed");
+  try{
+    const userCredential = await createUserWithEmailAndPassword(auth,email,password);
+    await setDoc(doc(db,"users",userCredential.user.uid),{email,role});
+    window.location.href="dashboard.html";
+  }catch(err){alert(err.message);}
+});
 
-    const email = loginForm.email.value.trim();
-    const password = loginForm.password.value;
+loginForm.addEventListener("submit", async(e)=>{
+  e.preventDefault();
+  const email = loginForm.querySelector("input[type=email]").value;
+  const password = loginForm.querySelector("input[type=password]").value;
+  try{ await signInWithEmailAndPassword(auth,email,password); window.location.href="dashboard.html"; }
+  catch(err){alert(err.message);}
+});
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      alert("Login successful!");
-      loginForm.reset();
-    } catch (error) {
-      alert(error.message);
-    }
-  });
-}
+window.logoutUser = async()=>{await signOut(auth); window.location.href="index.html";}
