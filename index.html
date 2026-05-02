@@ -1,171 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Voice | Login</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/4adadbb6df.js" crossorigin="anonymous"></script>
-
-<style>
-body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:#f5f7fb;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-
-/* card */
-.auth-card{
-  width:380px;
-  background:white;
-  border-radius:18px;
-  padding:40px 32px;
-  box-shadow:0 20px 50px rgba(0,0,0,0.08);
-  text-align:center;
-}
-
-/* icon */
-.logo-box{
-  width:60px;
-  height:60px;
-  background:#1e2b4f;
-  border-radius:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 18px;
-}
-
-.logo-box i{
-  color:white;
-  font-size:22px;
-}
-
-/* headings */
-h1{
-  margin:0;
-  font-size:26px;
-  color:#0f172a;
-}
-
-.subtitle{
-  color:#64748b;
-  margin:8px 0 28px;
-  font-size:14px;
-}
-
-/* inputs */
-.input{
-  width:100%;
-  padding:14px;
-  border-radius:10px;
-  border:1px solid #e2e8f0;
-  margin-bottom:16px;
-  font-size:14px;
-  outline:none;
-}
-
-.input:focus{
-  border-color:#1e2b4f;
-}
-
-/* button */
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:10px;
-  background:#1e2b4f;
-  color:white;
-  font-weight:600;
-  font-size:15px;
-  cursor:pointer;
-  transition:.25s;
-}
-
-.btn:hover{
-  background:#16213e;
-}
-
-/* toggle text */
-.toggle{
-  margin-top:18px;
-  font-size:14px;
-  color:#64748b;
-  cursor:pointer;
-}
-
-.toggle b{
-  color:#1e2b4f;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicVoice — Login</title>
+  <meta name="description"
+    content="CivicVoice — your community complaint platform. Sign in to upvote and submit complaints.">
+  <link rel="stylesheet" href="css/styles.css?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="auth-page">
 
-<div class="auth-card">
-
-  <div class="logo-box">
-    <i class="fas fa-paper-plane"></i>
+  <!-- Animated Background Orbs -->
+  <div class="bg-orbs">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
   </div>
 
-  <h1>Student Voice</h1>
-  <div class="subtitle">Register with your @mgits.ac.in email</div>
+  <div class="auth-card">
 
-  <!-- REGISTER -->
-  <form id="registerForm">
-    <input class="input" type="email" placeholder="Email" required>
-    <input class="input" type="password" placeholder="Password" required>
+    <div class="auth-card__logo">🔥</div>
 
-    <select id="roleSelect" class="input">
-      <option value="Student">Student</option>
-      <option value="Faculty">Faculty</option>
-    </select>
+    <h1>CivicVoice</h1>
 
-    <button class="btn" type="submit">
-      <i class="fas fa-user-plus"></i> Sign Up
-    </button>
-  </form>
+    <!-- Tabs: Admin tab only shown in login mode -->
+    <div class="auth-tabs" style="display:flex; gap:8px; margin-bottom:24px;">
+      <button class="auth-tab active" id="tabStudent"
+        style="flex:1; padding:10px; border-radius:8px; border:none; background:#6c5ce7; color:white; font-weight:600; cursor:pointer; transition:all 0.2s;">Student</button>
+      <button class="auth-tab" id="tabAdmin"
+        style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd; background:transparent; color:#6b7280; font-weight:600; cursor:pointer; transition:all 0.2s; display:none;">Admin</button>
+    </div>
 
-  <!-- LOGIN -->
-  <form id="loginForm" style="display:none;">
-    <input class="input" type="email" placeholder="Email" required>
-    <input class="input" type="password" placeholder="Password" required>
+    <div class="auth-card__subtitle" id="authSubtitle">Student Portal — Register with @mgits.ac.in</div>
 
-    <button class="btn" type="submit">
-      <i class="fas fa-right-to-bracket"></i> Sign In
-    </button>
-  </form>
+    <!-- REGISTER FORM (Students only) -->
+    <form id="registerForm">
+      <input class="form-input" type="email" placeholder="Email address" required>
+      <input class="form-input" type="password" placeholder="Password (min 6 characters)" required>
 
-  <div class="toggle" id="toggleText">
-    Already have an account? <b>Sign In</b>
+      <!-- Hidden field for role — always Student on signup -->
+      <input type="hidden" id="selectedRole" value="Student">
+
+      <button class="btn btn--accent btn--full" style="margin-bottom:12px;" type="submit">
+        Sign Up
+      </button>
+    </form>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm" style="display:none;">
+      <input class="form-input" type="email" placeholder="Email address" required>
+      <input class="form-input" type="password" placeholder="Password" required>
+
+      <button class="btn btn--accent btn--full" style="margin-bottom:12px;" type="submit">
+        Sign In
+      </button>
+    </form>
+
+    <div class="auth-card__toggle" id="toggleText"
+      style="text-align:center; font-size:14px; color:#6b7280; cursor:pointer;">
+      Already have an account? <b style="color:#6c5ce7;">Sign In</b>
+    </div>
+
   </div>
 
-</div>
+  <script type="module" src="js/auth.js?v=2"></script>
 
-<script type="module" src="./js/auth.js"></script>
+  <script>
+    const registerForm = document.getElementById("registerForm");
+    const loginForm = document.getElementById("loginForm");
+    const toggleText = document.getElementById("toggleText");
+    const authSubtitle = document.getElementById("authSubtitle");
 
-<script>
-const registerForm = document.getElementById("registerForm");
-const loginForm = document.getElementById("loginForm");
-const toggleText = document.getElementById("toggleText");
+    // Tabs
+    const tabStudent = document.getElementById("tabStudent");
+    const tabAdmin = document.getElementById("tabAdmin");
+    const selectedRole = document.getElementById("selectedRole");
 
-toggleText.addEventListener("click",()=>{
-  const isLogin = loginForm.style.display === "block";
+    let isLoginMode = false;
+    let currentTab = "Student";
 
-  loginForm.style.display = isLogin ? "none" : "block";
-  registerForm.style.display = isLogin ? "block" : "none";
+    function updateUI() {
+      // Both tabs visible in both login and signup modes
+      tabAdmin.style.display = "block";
 
-  toggleText.innerHTML = isLogin
-    ? 'Already have an account? <b>Sign In</b>'
-    : "Don't have an account? <b>Register</b>";
-});
-</script>
+
+      // 1. Update Tabs visuals
+      if (currentTab === "Student") {
+        tabStudent.style.background = "#6c5ce7";
+        tabStudent.style.color = "white";
+        tabStudent.style.border = "none";
+        tabAdmin.style.background = "transparent";
+        tabAdmin.style.color = "#6b7280";
+        tabAdmin.style.border = "1px solid #ddd";
+      } else {
+        tabAdmin.style.background = "#d63031";
+        tabAdmin.style.color = "white";
+        tabAdmin.style.border = "none";
+        tabStudent.style.background = "transparent";
+        tabStudent.style.color = "#6b7280";
+        tabStudent.style.border = "1px solid #ddd";
+      }
+
+      // Set role: Admin login uses Faculty role stored in Firestore
+      selectedRole.value = currentTab === "Admin" ? "Faculty" : "Student";
+
+      // 2. Update Forms visibility
+      loginForm.style.display = isLoginMode ? "block" : "none";
+      registerForm.style.display = isLoginMode ? "none" : "block";
+
+      // 3. Update Text
+      if (isLoginMode) {
+        authSubtitle.textContent = currentTab === "Student"
+          ? "Student Portal — Welcome back"
+          : "Admin Portal — Sign In";
+        toggleText.innerHTML = "Don't have an account? <b style='color:#6c5ce7;'>Register</b>";
+      } else {
+        authSubtitle.textContent = "Student Portal — Register with @mgits.ac.in";
+        toggleText.innerHTML = "Already have an account? <b style='color:#6c5ce7;'>Sign In</b>";
+      }
+
+      // 4. Update Button Colors
+      const accentBtn = loginForm.querySelector('.btn--accent');
+      const regBtn = registerForm.querySelector('.btn--accent');
+      if (currentTab === "Admin") {
+        accentBtn.style.background = "#d63031";
+        regBtn.style.background = "#d63031";
+      } else {
+        accentBtn.style.background = "#6c5ce7";
+        regBtn.style.background = "#6c5ce7";
+      }
+    }
+
+    tabStudent.addEventListener("click", () => {
+      currentTab = "Student";
+      updateUI();
+    });
+
+    tabAdmin.addEventListener("click", () => {
+      currentTab = "Admin";
+      updateUI();
+    });
+
+    toggleText.addEventListener("click", () => {
+      isLoginMode = !isLoginMode;
+      updateUI();
+    });
+
+    // Initialize UI
+    updateUI();
+  </script>
 
 </body>
+
 </html>
